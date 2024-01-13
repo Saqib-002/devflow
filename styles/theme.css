@@ -132,7 +132,7 @@
     @apply text-[10px] font-normal leading-[13px];
   }
   .placeholder {
-    @apply placeholder:text-light-400 dark:placeholder:text-light-;
+    @apply placeholder:text-light-400 dark:placeholder:text-light-400;
   }
   .invert-colors {
     @apply invert dark:invert-0;
@@ -144,7 +144,7 @@
     @apply shadow-light-100 dark:shadow-none;
   }
   .primary-gradient {
-    /* background: linear-gradient(129deg, #ff7000 0%, #e2995f 100% */
+    background: linear-gradient(129deg, #ff7000 0%, #e2995f 100%);
   }
   .dark-gradient {
     background: linear-gradient(
