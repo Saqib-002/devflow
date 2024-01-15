@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import RenderTag from "../RenderTag";
+import RenderTag from "./RenderTag";
 
 const hotQ = [
   {
@@ -26,11 +26,11 @@ const hotQ = [
   },
 ];
 const popularTags = [
-  { _id: 1, name: "javascript", totalQuestions: 10 },
-  { _id: 2, name: "javascript", totalQuestions: 10 },
-  { _id: 3, name: "javascript", totalQuestions: 10 },
-  { _id: 4, name: "javascript", totalQuestions: 10 },
-  { _id: 5, name: "javascript", totalQuestions: 10 },
+  { _id: "1", name: "javascript", totalQuestions: 10 },
+  { _id: "2", name: "javascript", totalQuestions: 10 },
+  { _id: "3", name: "javascript", totalQuestions: 10 },
+  { _id: "4", name: "javascript", totalQuestions: 10 },
+  { _id: "5", name: "javascript", totalQuestions: 10 },
 ];
 function RightSidebar() {
   return (
@@ -66,7 +66,7 @@ function RightSidebar() {
           {popularTags.map((tag) => (
             <RenderTag
               key={tag._id}
-              id={tag._id}
+              _id={tag._id}
               name={tag.name}
               totalQuestions={tag.totalQuestions}
               showCount
