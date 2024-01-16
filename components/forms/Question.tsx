@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { QuestionSchema } from "@/lib/validations";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
+import { createQuestion } from "@/lib/actions/question.action";
 
 const type: any = "create";
 
@@ -35,10 +36,11 @@ function Question() {
       tags: [],
     },
   });
-  function onSubmit(values: z.infer<typeof QuestionSchema>) {
+  async function onSubmit(values: z.infer<typeof QuestionSchema>) {
     setIsSubmitting(true);
     try {
       // make an async call to your api->create a question
+      await createQuestion({});
       // contain all form data
       // navigate to home
     } catch (e) {
@@ -120,6 +122,8 @@ function Question() {
                       // @ts-ignore
                       editorRef.current = editor;
                     }}
+                    onBlur={field.onBlur}
+                    onEditorChange={(content) => field.onChange(content)}
                     initialValue=""
                     init={{
                       height: 350,
