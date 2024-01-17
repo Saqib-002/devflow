@@ -5,73 +5,13 @@ import NoResult from "@/components/shared/NoResult";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
+import { GetQuestions } from "@/lib/actions/question.action";
 import Link from "next/link";
 import React from "react";
 
-const questions = [
-  {
-    _id: 1,
-    title: "Cascading Deletes in SQLAlchemy?",
-    tags: [
-      { _id: "1", name: "python" },
-      { _id: "2", name: "Sql" },
-    ],
-    author: {
-      _id: 1,
-      name: "John Doe",
-      picture: "url/to/picture.jpg",
-    },
-    upvotes: 10,
-    views: 100,
-    answers: [
-      { user: "Alice", content: "Solution 1" },
-      { user: "Bob", content: "Solution 2" },
-    ],
-    createdAt: new Date("2021-09-01T12:00:00Z"),
-  },
-  {
-    _id: 2,
-    title: "Async/Await in JavaScript?",
-    tags: [
-      { _id: "3", name: "javascript" },
-      { _id: "4", name: "async" },
-    ],
-    author: {
-      _id: 2,
-      name: "Jane Doe",
-      picture: "url/to/picture.jpg",
-    },
-    upvotes: 15,
-    views: 120,
-    answers: [
-      { user: "Charlie", content: "Explanation 1" },
-      { user: "David", content: "Explanation 2" },
-    ],
-    createdAt: new Date("2021-09-02T10:30:00Z"),
-  },
-  {
-    _id: 3,
-    title: "RESTful API Design Best Practices?",
-    tags: [
-      { _id: "5", name: "api" },
-      { _id: "6", name: "rest" },
-    ],
-    author: {
-      _id: 3,
-      name: "Bob Smith",
-      picture: "url/to/picture.jpg",
-    },
-    upvotes: 20,
-    views: 150,
-    answers: [
-      { user: "Eve", content: "Tip 1" },
-      { user: "Frank", content: "Tip 2" },
-    ],
-    createdAt: new Date("2021-09-03T08:45:00Z"),
-  },
-];
-
-function Home() {
+async function Home() {
+  const result = await GetQuestions({});
+  const questions = result.questions;
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -106,7 +46,7 @@ function Home() {
               title={question.title}
               tags={question.tags}
               author={question.author}
-              upvotes={question.upvotes}
+              upVotes={question.upVotes.length}
               views={question.views}
               answers={question.answers}
               createdAt={question.createdAt}

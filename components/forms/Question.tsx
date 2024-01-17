@@ -30,6 +30,7 @@ function Question({ mongoUserId }: Props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  console.log(pathname);
   if (editorRef.current) {
     console.log(editorRef.current.getContent());
   }
@@ -51,6 +52,7 @@ function Question({ mongoUserId }: Props) {
         content: values.explanation,
         tags: values.tags,
         author: JSON.parse(mongoUserId),
+        path: pathname,
       });
       // navigate to home
       router.push("/");

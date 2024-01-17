@@ -3,10 +3,13 @@
 import { connectToDatabase } from "../mongooose";
 import Question from "@/database/question.model";
 import Tag from "@/database/tag.model";
+import { CreateQuestionParams, GetQuestionsParams } from "./shared.types";
+import User from "@/database/user.model";
+import { revalidatePath } from "next/cache";
 
-export async function createQuestion(params: any) {
+export async function createQuestion(params: CreateQuestionParams) {
   try {
-    await connectToDatabase();
+    connectToDatabase();
     const { title, content, tags, author, path } = params;
     console.log("as");
     console.log(title, content, tags, author, path);
@@ -26,5 +29,23 @@ export async function createQuestion(params: any) {
     await Question.findByIdAndUpdate(question._id, {
       $push: { tags: { $each: tagDocuments } },
     });
-  } catch (err) {}
+    revalidatePath(path);
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+export async function GetQuestions(params: GetQuestionsParams) {
+  try {
+    connectToDatabase();
+    const questions = await Question.find({})
+      .populate({ path: "tags", model: Tag })
+      .populate({ path: "author", model: User })
+      .sort({ createdAt: -1 });
+    return { questions };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 }
