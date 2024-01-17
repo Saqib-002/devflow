@@ -19,12 +19,17 @@ import { QuestionSchema } from "@/lib/validations";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
 import { createQuestion } from "@/lib/actions/question.action";
+import { usePathname, useRouter } from "next/navigation";
 
 const type: any = "create";
-
-function Question() {
+interface Props {
+  mongoUserId: string;
+}
+function Question({ mongoUserId }: Props) {
   const editorRef = useRef();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
   if (editorRef.current) {
     console.log(editorRef.current.getContent());
   }
@@ -40,12 +45,18 @@ function Question() {
     setIsSubmitting(true);
     try {
       // make an async call to your api->create a question
-      await createQuestion({});
       // contain all form data
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId),
+      });
       // navigate to home
+      router.push("/");
     } catch (e) {
     } finally {
-      setIsSubmitting(true);
+      setIsSubmitting(false);
     }
   }
   const handleInputKeyDown = (
