@@ -31,9 +31,6 @@ function Question({ mongoUserId }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   console.log(pathname);
-  if (editorRef.current) {
-    console.log(editorRef.current.getContent());
-  }
   const form = useForm<z.infer<typeof QuestionSchema>>({
     resolver: zodResolver(QuestionSchema),
     defaultValues: {
