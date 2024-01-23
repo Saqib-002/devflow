@@ -38,7 +38,7 @@ function QuestionCard({
             {getTimestamp(createdAt)}
           </span>
           <Link
-            href={`/questions/${_id}`}
+            href={`/question/${_id}`}
             className="sm:h3-semibold base-semibold text-dark200_light900 line-clamp-1 flex-1"
           >
             <h3>{title}</h3>
