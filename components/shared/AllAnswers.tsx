@@ -2,11 +2,11 @@ import React from "react";
 import Filter from "./Filter";
 import { AnswerFilters } from "@/constants/filters";
 import { getAnswers } from "@/lib/actions/answer.action";
-import result from "postcss/lib/result";
 import Link from "next/link";
 import Image from "next/image";
 import { getTimestamp } from "@/lib/utils";
 import ParseHtml from "./ParseHtml";
+import Votes from "./Votes";
 
 interface Props {
   questionId: string;
@@ -49,10 +49,20 @@ async function AllAnswers({ questionId, userId, totalAnswers }: Props) {
                     </p>
                   </div>
                 </Link>
-                <div className="flex justify-end">VOTING</div>
+                <div className="flex justify-end">
+                  <Votes
+                    type="Answer"
+                    itemId={JSON.stringify(answer._id)}
+                    userId={JSON.stringify(userId)}
+                    upVotes={answer.upVotes.length}
+                    hasupVoted={answer.upVotes.includes(userId)}
+                    downVotes={answer.downVotes.length}
+                    hasdownVoted={answer.downVotes.includes(userId)}
+                  />
+                </div>
               </div>
-              <ParseHtml data={answer.content} />
             </div>
+            <ParseHtml data={answer.content} />
           </article>
         ))}
       </div>
