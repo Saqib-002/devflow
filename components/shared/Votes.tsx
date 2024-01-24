@@ -4,6 +4,7 @@ import {
   downVoteQuestion,
   upVoteQuestion,
 } from "@/lib/actions/question.action";
+import { toggleSaveQuestion } from "@/lib/actions/user.action";
 import { formatAndDivideNumber } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -71,7 +72,13 @@ function Votes({
       }
     }
   };
-  const handleSave = () => {};
+  const handleSave = async () => {
+    await toggleSaveQuestion({
+      userId: JSON.parse(userId),
+      questionId: JSON.parse(itemId),
+      path,
+    });
+  };
   return (
     <div className="flex gap-5">
       <div className="flex-center gap-2.5">
@@ -117,7 +124,7 @@ function Votes({
       <Image
         src={
           hasSaved
-            ? "/assets/icons/star-filed.svg"
+            ? "/assets/icons/star-filled.svg"
             : "/assets/icons/star-red.svg"
         }
         alt="upvote"
