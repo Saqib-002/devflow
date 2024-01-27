@@ -129,18 +129,20 @@ function Votes({
           </div>
         </div>
       </div>
-      <Image
-        src={
-          hasSaved
-            ? "/assets/icons/star-filled.svg"
-            : "/assets/icons/star-red.svg"
-        }
-        alt="upvote"
-        onClick={handleSave}
-        className="cursor-pointer"
-        width={18}
-        height={18}
-      />
+      {type === "Question" && (
+        <Image
+          src={
+            hasSaved
+              ? "/assets/icons/star-filled.svg"
+              : "/assets/icons/star-red.svg"
+          }
+          alt="upvote"
+          onClick={handleSave}
+          className="cursor-pointer"
+          width={18}
+          height={18}
+        />
+      )}
     </div>
   );
 }

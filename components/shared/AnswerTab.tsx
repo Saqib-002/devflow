@@ -1,7 +1,6 @@
 import { getUserAnswers } from "@/lib/actions/user.action";
 import { SearchParamsProps } from "@/types";
 import React from "react";
-import QuestionCard from "../cards/QuestionCard";
 import AnswerCard from "./AnswerCard";
 
 interface Props extends SearchParamsProps {
