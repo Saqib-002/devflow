@@ -19,8 +19,10 @@ interface PropsType {
   views: number;
   answers: Array<object>;
   createdAt: Date;
+  clerkId?: string | null;
 }
 function QuestionCard({
+  clerkId,
   _id,
   title,
   tags,
