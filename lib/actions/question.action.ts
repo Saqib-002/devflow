@@ -21,10 +21,7 @@ export async function createQuestion(params: CreateQuestionParams) {
   try {
     connectToDatabase();
     const { title, content, tags, author, path } = params;
-    console.log("as");
-    console.log(title, content, tags, author, path);
     const question = await Question.create({ title, content, author });
-    console.log(question);
     const tagDocuments = [];
     // create a tag or get them if exists
     for (const tag of tags) {
@@ -49,7 +46,9 @@ export async function createQuestion(params: CreateQuestionParams) {
 export async function GetQuestions(params: GetQuestionsParams) {
   try {
     connectToDatabase();
-    const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 20 } = params;
+    const skipAmount = (page - 1) * pageSize;
+
     const query: FilterQuery<typeof Question> = {};
     if (searchQuery) {
       query.$or = [
@@ -79,8 +78,12 @@ export async function GetQuestions(params: GetQuestionsParams) {
     const questions = await Question.find(query)
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User })
+      .skip(skipAmount)
+      .limit(pageSize)
       .sort(sortOptions);
-    return { questions };
+    const totalQuestions = await Question.countDocuments(query);
+    const isNext = totalQuestions > skipAmount + questions.length;
+    return { questions, isNext };
   } catch (error) {
     console.log(error);
     throw error;

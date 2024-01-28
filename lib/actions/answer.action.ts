@@ -10,7 +10,6 @@ import {
 } from "./shared.types";
 import Question from "@/database/question.model";
 import { revalidatePath } from "next/cache";
-import Tag from "@/database/tag.model";
 import Interaction from "@/database/interaction.model";
 
 export async function createAnswer(params: CreateAnswerParams) {
@@ -34,7 +33,7 @@ export async function createAnswer(params: CreateAnswerParams) {
 export async function getAnswers(params: GetAnswersParams) {
   try {
     connectToDatabase();
-    const { questionId, sortBy } = params;
+    const { questionId, sortBy, page = 1, pageSize = 10 } = params;
     let filterOptions = {};
     switch (sortBy) {
       case "highestUpvotes":
@@ -53,10 +52,15 @@ export async function getAnswers(params: GetAnswersParams) {
       default:
         break;
     }
+    const skipAmount = (page - 1) * pageSize;
     const answers = await Answer.find({ question: questionId })
       .populate("author", "_id clerkId name picture")
-      .sort(filterOptions);
-    return { answers };
+      .sort(filterOptions)
+      .skip(skipAmount)
+      .limit(pageSize);
+    const totalAnswers = await Answer.countDocuments({ question: questionId });
+    const isNext = totalAnswers > skipAmount + answers.length;
+    return { answers, isNext };
   } catch (error) {
     console.log(error);
     throw error;
