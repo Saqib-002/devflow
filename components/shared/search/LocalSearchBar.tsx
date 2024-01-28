@@ -27,8 +27,6 @@ function LocalSearchBAr({
   const [search, setSearch] = useState(query || "");
   useEffect(() => {
     const delayDeboundFn = setTimeout(() => {
-      console.log(searchParams.toString());
-      console.log(searchParams);
       if (search) {
         const newUrl = formUrlQuery({
           params: searchParams.toString(),
