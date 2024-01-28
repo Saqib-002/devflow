@@ -6,11 +6,14 @@ import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
 import { GetQuestions } from "@/lib/actions/question.action";
+import { SearchParamsProps } from "@/types";
 import Link from "next/link";
 import React from "react";
 
-async function Home() {
-  const result = await GetQuestions({});
+async function Home({ searchParams }: SearchParamsProps) {
+  const result = await GetQuestions({
+    searchQuery: searchParams.q,
+  });
   const questions = result.questions;
   return (
     <>

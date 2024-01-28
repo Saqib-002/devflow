@@ -4,15 +4,18 @@ import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { Button } from "@/components/ui/button";
 import { UserFilters } from "@/constants/filters";
 import { getAllUsers } from "@/lib/actions/user.action";
+import { SearchParamsProps } from "@/types";
 import Link from "next/link";
 import React from "react";
 
-async function Page() {
-  const result = await getAllUsers({});
+async function Page({ searchParams }: SearchParamsProps) {
+  const result = await getAllUsers({
+    searchQuery: searchParams.q,
+  });
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
-        <h1 className="h1-bold text-dark100_light900">All Questions</h1>
+        <h1 className="h1-bold text-dark100_light900">All Users</h1>
         <Link href="/ask-question" className="flex justify-end max-sm:w-full">
           <Button className="primary-gradient min-h-[46px] px-4 py-3 !text-light-900">
             Ask a Question
@@ -38,11 +41,11 @@ async function Page() {
             return <UserCard user={user} key={user.name} />;
           })
         ) : (
-          <div className="paragraph-regular text-dark200_light800 mx-auto max-w-4xl">
-            <link href="/sign-up" className="mt-2 font-bold text-accent-blue">
+          <div className="paragraph-regular text-dark200_light800 mx-auto max-w-4xl text-center">
+            <p>No users yet</p>
+            <Link href="/sign-up" className="mt-2 font-bold text-accent-blue">
               Join to be first
-            </link>
-            No users yet
+            </Link>
           </div>
         )}
       </section>
