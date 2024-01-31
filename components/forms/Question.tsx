@@ -22,6 +22,7 @@ import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "@/context/ThemeProvider";
 import { ITag } from "@/database/tag.model";
+import { toast } from "../ui/use-toast";
 
 interface Props {
   mongoUserId: string;
@@ -59,6 +60,9 @@ function Question({ mongoUserId, type, questionDetails }: Props) {
           content: values.explanation,
           path: pathname,
         });
+        toast({
+          title: "Question has been edited successfully",
+        });
         router.push(`/question/${parsedQuestionDetails._id}`);
       } else {
         await createQuestion({
@@ -67,6 +71,9 @@ function Question({ mongoUserId, type, questionDetails }: Props) {
           tags: values.tags,
           author: JSON.parse(mongoUserId),
           path: pathname,
+        });
+        toast({
+          title: "Question posted successfully",
         });
         router.push("/");
       }
