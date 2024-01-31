@@ -37,7 +37,7 @@ async function Home({ searchParams }: SearchParamsProps) {
       </div>
       <div className="mt-10 flex w-full flex-col gap-6">
         {questions.length > 0 ? (
-          questions.map((question) => (
+          questions.map((question: any) => (
             <QuestionCard
               key={question._id}
               _id={question._id}

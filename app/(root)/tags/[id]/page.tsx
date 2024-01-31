@@ -2,7 +2,6 @@ import QuestionCard from "@/components/cards/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
 import Pagination from "@/components/shared/Pagination";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
-import { IQuestion } from "@/database/question.model";
 import { getQuestionsByTagId } from "@/lib/actions/tag.actions";
 import { URLProps } from "@/types";
 import React from "react";
@@ -28,7 +27,7 @@ async function page({ params, searchParams }: URLProps) {
       </div>
       <div className="mt-10 flex w-full flex-col gap-6">
         {questions.length > 0 ? (
-          questions.map((question: IQuestion) => (
+          questions.map((question: any) => (
             <QuestionCard
               key={question._id}
               _id={question._id}

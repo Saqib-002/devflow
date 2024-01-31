@@ -42,7 +42,8 @@ async function Home({ searchParams }: SearchParamsProps) {
       page: searchParams.page ? +searchParams.page : 1,
     });
   }
-  const questions = result?.questions;
+  // @ts-ignore
+  const questions = result.questions;
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -69,8 +70,8 @@ async function Home({ searchParams }: SearchParamsProps) {
       </div>
       <HomeFilters />
       <div className="mt-10 flex w-full flex-col gap-6">
-        {questions?.length > 0 ? (
-          questions?.map((question) => (
+        {questions.length > 0 ? (
+          questions.map((question) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
@@ -97,7 +98,8 @@ async function Home({ searchParams }: SearchParamsProps) {
       <div className="mt-10">
         <Pagination
           pageNumber={searchParams?.page ? +searchParams.page : 1}
-          isNext={result?.isNext}
+          // @ts-ignore
+          isNext={result.isNext}
         />
       </div>
     </>
