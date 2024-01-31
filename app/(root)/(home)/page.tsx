@@ -6,18 +6,43 @@ import Pagination from "@/components/shared/Pagination";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
-import { GetQuestions } from "@/lib/actions/question.action";
+import {
+  GetQuestions,
+  getRecommendedQuestions,
+} from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
+import { auth } from "@clerk/nextjs";
 import Link from "next/link";
 import React from "react";
 
+export const metadata = {
+  title: "Home | Devflow",
+  description: "Devflow is a community of 1,000,000+ developers. Join us",
+};
 async function Home({ searchParams }: SearchParamsProps) {
-  const result = await GetQuestions({
-    searchQuery: searchParams.q,
-    filter: searchParams.filter,
-    page: searchParams.page ? +searchParams.page : 1,
-  });
-  const questions = result.questions;
+  const { userId } = auth();
+  let result;
+  if (searchParams?.filter === "recommended") {
+    if (userId) {
+      result = await getRecommendedQuestions({
+        userId,
+        searchQuery: searchParams.q,
+        page: searchParams.page ? +searchParams.page : 1,
+      });
+    } else {
+      result = {
+        questions: [],
+        isNext: false,
+      };
+    }
+  } else {
+    result = await GetQuestions({
+      searchQuery: searchParams.q,
+      filter: searchParams.filter,
+      page: searchParams.page ? +searchParams.page : 1,
+    });
+  }
+  const questions = result?.questions;
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -44,8 +69,8 @@ async function Home({ searchParams }: SearchParamsProps) {
       </div>
       <HomeFilters />
       <div className="mt-10 flex w-full flex-col gap-6">
-        {questions.length > 0 ? (
-          questions.map((question) => (
+        {questions?.length > 0 ? (
+          questions?.map((question) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
@@ -72,7 +97,7 @@ async function Home({ searchParams }: SearchParamsProps) {
       <div className="mt-10">
         <Pagination
           pageNumber={searchParams?.page ? +searchParams.page : 1}
-          isNext={result.isNext}
+          isNext={result?.isNext}
         />
       </div>
     </>

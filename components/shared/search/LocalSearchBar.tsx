@@ -64,7 +64,7 @@ function LocalSearchBAr({
         placeholder={placeholder}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="paragraph-regular no-focus background-light800_darkgradient border-none shadow-none outline-none"
+        className="paragraph-regular text-dark400_light700 no-focus border-none bg-transparent shadow-none outline-none"
       />
       {iconPosition === "right" && (
         <Image
