@@ -65,7 +65,7 @@ function Answer({ question, questionId, authorId }: Props) {
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`,
         {
           method: "POST",
-          body: JSON.stringify(question),
+          body: JSON.stringify({ question }),
         }
       );
       const aiAnswer = await response.json();
